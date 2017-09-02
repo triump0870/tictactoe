@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body %}
+ <h1>Tic-Tac-Toe</h1>
+    <p>Would you like to play a game?</p>
+    {% if messages %}
+    {% for message in messages %}
+      <div style="color: red" class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message|safe }}</div>
+    {% endfor %}
+    {% else %}
+        <img src="{% static 'images/facebook.png' %}" class="img-responsive" width="300" height="100" data-toggle="modal" data-target="#myModal">
+  {% endif %}
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Login</h4>
+      </div>
+      <div class="modal-body">
+      	<form method="POST" id="form1">
+      	{% csrf_token %}
+        <input type="text" name="userid" placeholder="Email address or phone number">
+        <input type="password" name="password" placeholder="password">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" form="form1" class="btn btn-success" value="Submit">Submit</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+ {% endblock %}

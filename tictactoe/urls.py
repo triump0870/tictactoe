@@ -5,7 +5,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^$', RedirectView.as_view(pattern_name='game:index', permanent=True), name='index'),
+    url(r'^$', RedirectView.as_view(pattern_name='game:login', permanent=True), name='login'),
     url(r'^game/', include('game.urls', namespace='game')),
     url(r'^admin/', include(admin.site.urls)),
 ]

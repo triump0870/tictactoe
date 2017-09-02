@@ -1,11 +1,16 @@
 {% extends "base.html" %}
+{% load static %}
 {% block body %}
-    <h1>Tic-Tac-Toe</h1>
-    <p>Would you like to play a game?</p>
-    <form method="POST">
+   <div class="container">
+	<form method="POST" action="/game/">
         {% csrf_token %}
+        <label>Player 1</label>
+        <input type="text" name="player1"/>
+        <label>Player 2</label>
+        <input type="text" name="player2"/>
         <input name="player1" type="hidden" value="human"/>
-        <input name="player2" type="hidden" value="game.players.RandomPlayer"/>
-        <button type="submit">Play against a dumb computer</button>
+        <input name="player2" type="hidden" value="human"/>
+        <button type="submit">Play</button>
     </form>
+    </div>
 {% endblock %}
