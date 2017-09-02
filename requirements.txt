@@ -7,3 +7,4 @@ tox==2.1.1
 dj-static
 mechanize
 gunicorn
+whitenoise
