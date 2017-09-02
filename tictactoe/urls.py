@@ -1,7 +1,7 @@
 from django.conf.urls import include, url
 from django.views.generic import RedirectView
 from django.conf import settings
-from django.views.static import serve
+from django.views import static
 from django.contrib import admin
 admin.autodiscover()
 
@@ -12,6 +12,6 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    url(r'^static/(?P<path>.*)$', serve,
+    url(r'^static/(?P<path>.*)$', static.serve,
         {'document_root': settings.STATIC_ROOT}),
 ]
