@@ -2,7 +2,7 @@
 {% load static %}
 {% block body %}
    <div class="container">
-	<form method="POST" action="/game/">
+	<form method="POST" action="{% url 'game:play' %}">
         {% csrf_token %}
         <label>Player 1</label>
         <input type="text" name="player1"/>
