@@ -1,16 +1,41 @@
 {% extends "base.html" %}
-{% load static %}
 {% block body %}
-   <div class="container">
-	<form method="POST" action="{% url 'game:play' %}">
+    <div class="container">
+    <form method="POST">
         {% csrf_token %}
-        <label>Player 1</label>
-        <input type="text" name="player1"/>
-        <label>Player 2</label>
-        <input type="text" name="player2"/>
-        <input name="player1" type="hidden" value="human"/>
-        <input name="player2" type="hidden" value="human"/>
-        <button type="submit">Play</button>
+        <div class="form-group">
+	        <label for='name'>Player 1</label>
+	        <input name="player1" id="player1" class="form-control" type="text" placeholder="Enter Name" />
+        </div>
+        <div class="form-group">
+        	<label for='name'>Player 2</label>
+        	<hr>
+        	<select class="selectpicker" id="player">
+			  <optgroup label="Player">
+			  	<option disabled="">Choose Player</option>
+			  	<option value="game.players.RandomPlayer">Computer</option>
+			    <option value="human">Human</option>
+			  </optgroup>
+			</select>
+        	<input name="player2" id='player2' hidden='true' class="form-control" type="text" value="game.players.RandomPlayer"/>
+        </div>
+        <button id='play' type="submit">Play</button>
     </form>
     </div>
+    <script type="text/javascript">
+    	$('#play').click(function(){
+    		$('#player1').val('human');
+    		$('#player2').val('human');
+    	});
+    	$('#player').on('change', function(){
+    		if($(this).val() === "human"){
+    			$('#player2').show();
+    			$('#player2').val('');
+    			$('#player2').attr('placeholder', 'Enter Name');
+    		}
+    		else if ($(this).val() === 'game.players.RandomPlayer') {
+    			$('#player2').hide();
+    		}
+    	});
+    </script>
 {% endblock %}

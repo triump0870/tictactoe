@@ -3,13 +3,13 @@
     {% with next_player=game.next_player game_over=game.is_game_over %}
         {% if game_over == 'X' %}
             <h1>X wins!</h1>
-            <a href="{% url 'game:index' %}">Start a new game</a>
+            <a href="{% url 'game:play' %}">Start a new game</a>
         {% elif game_over == 'O' %}
             <h1>O wins!</h1>
-            <a href="{% url 'game:index' %}">Start a new game</a>
+            <a href="{% url 'game:play' %}">Start a new game</a>
         {% elif game_over == ' ' %}
             <h1>Stalemate</h1>
-            <a href="{% url 'game:index' %}">Start a new game</a>
+            <a href="{% url 'game:play' %}">Start a new game</a>
         {% else %}
             {# Game still in progress #}
             <h1>{{ next_player }} to play</h1>
