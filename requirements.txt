@@ -8,3 +8,4 @@ dj-static
 mechanize
 gunicorn
 whitenoise
+dj-database-url
