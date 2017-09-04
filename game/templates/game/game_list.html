@@ -25,7 +25,9 @@
     <script type="text/javascript">
     	$('#play').click(function(){
     		$('#player1').val('human');
-    		$('#player2').val('human');
+    		if ($('#player').val() === 'human') {
+    			$('#player2').val('human');
+    		}
     	});
     	$('#player').on('change', function(){
     		if($(this).val() === "human"){
