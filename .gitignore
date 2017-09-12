@@ -64,3 +64,4 @@ media
 miniblog_local
 .DS_Store
 game/.DS_Store
+settings.py
